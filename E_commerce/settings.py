@@ -47,7 +47,9 @@ INSTALLED_APPS = [
     'order',
     'order_item',
     'shipment',
-    'wishlist.apps.WishlistConfig'
+    'wishlist.apps.WishlistConfig',
+    'payment.apps.PaymentConfig'
+
     
 ]
 
