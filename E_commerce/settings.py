@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'users',
     'order',
     'order_item',
-    'shipment'
+    'shipment',
+    'wishlist.apps.WishlistConfig'
+    
 ]
 
 MIDDLEWARE = [
