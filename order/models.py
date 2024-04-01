@@ -1,12 +1,12 @@
 from django.db import models
 from shipment.models import Shipment
 from django.utils import timezone
+from users.models import User
 
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True , default=0)
-    # user_id       = models.IntegerField()
-    # user_id = models.OneToOneField(User, on_delete=models.CASCADE , db_column ='user_id')
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE , db_column ='user_id')
     order_date = models.DateTimeField(default=timezone.now)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     total_quantity	  = models.IntegerField()
