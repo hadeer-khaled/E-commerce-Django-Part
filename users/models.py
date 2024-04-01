@@ -15,4 +15,5 @@ class User (models.Model):
     password = models.CharField(max_length=20, validators=[MinLengthValidator(8)])
     role = models.CharField(choices=roles,max_length=5)
     phone = models.CharField(max_length=11,validators=[validate_phone])
-    user_img = models.ImageField()
+    # user_img = models.ImageField()
+    image = models.ImageField(null=True , blank=True , upload_to='users_images/')
