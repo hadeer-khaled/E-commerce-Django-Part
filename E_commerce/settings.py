@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'users',
+    'order',
+    'order_item',
+    'shipment'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +85,7 @@ WSGI_APPLICATION = 'E_commerce.wsgi.application'
 
 DATABASES = {
         'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
