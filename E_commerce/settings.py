@@ -25,13 +25,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5!49pw*534y2i=cgm+15v5yze=#v!0u00=2p(_$jy1bl$ebbom'
+SECRET_KEY = os.getenv('SETTINGS_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS=['http://localhost:8000','http://127.0.0.1']
+ALLOWED_HOSTS=['*']
 
+CORS_ORIGIN_ALLOW_ALL = True 
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1',
+    'http://localhost:8000',
+)
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -43,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'users',
     'order',
     'order_item',
@@ -53,12 +62,10 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'cart_item.apps.CartItemConfig',
     'shopping_cart.apps.ShoppingCartConfig',
-
-
-    
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -102,7 +109,17 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
+# Custom User model 
+AUTH_USER_MODEL = 'users.User'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -139,6 +156,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR , "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
