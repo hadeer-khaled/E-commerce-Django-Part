@@ -59,6 +59,7 @@ class UserLogout(APIView):
         response.data = {
             "message":"logged out successfully"
         }
+        print("Logged out")
         return response
 
 
