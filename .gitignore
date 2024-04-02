@@ -2,3 +2,4 @@ env
 .env
 migrations
 __pycache__
+insert_dummy_data.py
