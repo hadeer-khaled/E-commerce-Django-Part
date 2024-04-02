@@ -32,7 +32,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.Serializer):
 	email = serializers.EmailField()
 	password = serializers.CharField()
-	##
+	
 	def check_user(self, validated_data):
 		user = authenticate(username=validated_data['email'], password=validated_data['password'])
 		if not user:
