@@ -13,6 +13,12 @@ class CategoryListView(APIView):
         try:
             result = handle_query_params(queryset, params, search_fields)
             serializer = CategorySerializer(result['data'], many=True)
-            return Response(serializer.data)
+            response_data = {
+                'categories': serializer.data,
+                'current_page': result['current_page'],
+                'total_pages': result['total_pages'],
+                'total_count': result['total_count']
+            }
+            return Response(response_data)
         except ValidationError as e:
             return Response({'error': str(e)}, status=400)
