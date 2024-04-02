@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from .models import Product, ProductImage
 from .serializers import ProductSerializer
 from utils.query_params import handle_query_params
+from django.core.exceptions import ValidationError
+
 class ProductListView(APIView):
     def get(self, request):
         queryset = Product.objects.all()
