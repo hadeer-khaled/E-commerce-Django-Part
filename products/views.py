@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from .models import Product, ProductImage
 from .serializers import ProductSerializer
 from utils.query_params import handle_query_params
-
 class ProductListView(APIView):
     def get(self, request):
         queryset = Product.objects.all()
@@ -22,6 +21,16 @@ class ProductListView(APIView):
             return Response(response_data)
         except ValidationError as e:
             return Response({'error': str(e)}, status=400)
+
+class ProductDetailsView(APIView):
+    def get(self, request, product_id):
+        try:
+            product = Product.objects.get(pk=product_id)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=404)
+        
 class ProductImagesView(APIView):
     def get(self, request, product_id):
         product_images = ProductImage.objects.filter(product_id=product_id)
