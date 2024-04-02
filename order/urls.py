@@ -1,3 +1,6 @@
 from django.urls import path
-
-urlpatterns = []
+from .views import AllOrdersView , SpecificOrderView, SpecificUserOrdersView
+urlpatterns = [
+    path('', AllOrdersView.as_view()),
+    path('order/<int:order_id>/', SpecificOrderView.as_view()),
+    path('user_order/<int:user_id>/', SpecificUserOrdersView.as_view()),]
