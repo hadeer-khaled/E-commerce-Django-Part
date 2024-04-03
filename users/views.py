@@ -11,6 +11,8 @@ from .validations import custom_validation
 import jwt , datetime
 from dotenv import load_dotenv
 import os
+from django.utils import timezone
+import pytz
 
 load_dotenv()
 
@@ -63,12 +65,14 @@ class UserLogin(APIView):
 
             if serializer.is_valid(raise_exception=True):
                 user = serializer.check_user(data)
+            egypt_tz = pytz.timezone('Africa/Cairo')
+            now = timezone.now().astimezone(egypt_tz)
             payload = {
-                'id': user.user_id,
-                'exp': datetime.datetime.now() + datetime.timedelta(hours=2),
-                'iat': datetime.datetime.now()
+               'id': user.user_id,
+            'exp': now + datetime.timedelta(hours=2),
+            'iat': now 
             }
-            token = jwt.encode(payload,'aa', algorithm='HS256')
+            token = jwt.encode(payload, os.getenv('JWT_SECRET_KEY'), algorithm='HS256')
             
             response = Response({"message":"logged in successfully"})
             response.set_cookie(key='jwt',value=token,httponly=True)

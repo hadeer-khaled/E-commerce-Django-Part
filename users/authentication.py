@@ -13,19 +13,21 @@ load_dotenv(dotenv_path)
 class CustomUserAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         token = request.COOKIES.get('jwt')
-
-
-        if not token:
-            return None
-        
+        print(token)
         try:
-            # jwt_secret = os.environ.get('JWT_SECRET')
-            payload = jwt.decode(token,'aa',algorithms=['HS256'])
-            
-        except:
-            raise exceptions.AuthenticationFailed("Unautghorized")
+            if not token:
+                raise exceptions.AuthenticationFailed('No Token Provided:')
 
-        user = models.User.objects.filter(id=payload["id"], is_superuser=False).first()
+            # jwt_secret = os.environ.get('JWT_SECRET')
+            payload = jwt.decode(token, os.getenv('JWT_SECRET_KEY'), algorithms=['HS256'])    
+        except jwt.ExpiredSignatureError:
+            raise exceptions.AuthenticationFailed('Token has expired')   
+        # except jwt.InvalidTokenError:
+        #     raise exceptions.AuthenticationFailed('Invalid token')   
+        except Exception as e:
+            raise exceptions.AuthenticationFailed('Failed to authenticate:'+str(e))
+
+        user = models.User.objects.filter(user_id=payload["id"], is_superuser=False).first()
 
         if user is None:
             raise exceptions.AuthenticationFailed('User does not exist or is a superuser')
