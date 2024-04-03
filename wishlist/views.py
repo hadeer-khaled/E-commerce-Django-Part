@@ -8,8 +8,12 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.http import Http404
 from utils.query_params import handle_query_params
+from users import authentication
+from rest_framework import permissions
 
 class WishlistListView(APIView):
+    authentication_classes = (authentication.CustomUserAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         wishlists = Wishlist.objects.all()
         params = request.query_params
