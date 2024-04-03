@@ -45,12 +45,13 @@ class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self,request):
+        
         valid_data =  custom_validation(request.data)
         serializer = UserRegisterSerializer(data=valid_data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.create(valid_data)
             if user:
-                return Response(serializer.data , status=status.HTTP_201_CREATED)
+                return Response({"message":"User created successfully" } , status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UserLogin(APIView):
