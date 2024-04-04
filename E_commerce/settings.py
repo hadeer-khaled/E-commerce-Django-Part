@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'users',
     'order',
     'order_item',
@@ -109,17 +109,20 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
+
+
 # Custom User model 
 AUTH_USER_MODEL = 'users.User'
 
-REST_FRAMEWORK = {
-        # 'DEFAULT_PERMISSION_CLASSES': (
-        #     'rest_framework.permissions.IsAuthenticated',
-        # ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.SessionAuthentication',
+#     ),
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -165,3 +168,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR , "") # edited for dummy data trying direct l
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = "users.User"
+

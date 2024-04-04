@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views
+from .views import DeleteShoppingCartView
 
 urlpatterns = [
+    path('shopping-cart/delete/', DeleteShoppingCartView.as_view(), name='delete-shopping-cart'),
 ]
