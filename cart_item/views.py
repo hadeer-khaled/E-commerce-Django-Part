@@ -21,9 +21,8 @@ class AddToCartView(APIView):
 
         cart_item, created = CartItem.objects.get_or_create(cart=shopping_cart, product=product)
         if created:
-            cart_item.quantity = 1  # Set quantity to 1 if item is created for the first time
+            cart_item.quantity = 1  
         else:
-            # Ensure quantity is properly initialized
             cart_item.quantity = cart_item.quantity or 0
             cart_item.quantity += 1
             cart_item.save()
