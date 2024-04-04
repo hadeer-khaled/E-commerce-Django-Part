@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from django.http import Http404
 from users import authentication
 class WishlistListView(APIView):
-    authentication_classes = (authentication.CustomUserAuthentication,)
+    # authentication_classes = (authentication.CustomUserAuthentication,)
     # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         user_id = request.query_params.get('user_id')
@@ -21,6 +21,7 @@ class WishlistListView(APIView):
             return Response({'error': 'User ID not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
 class AddToWishlistView(APIView):
+    # authentication_classes = (authentication.CustomUserAuthentication,)
     def post(self, request):
         product_id = request.data.get('product_id')
         user_id = request.data.get('user_id')
@@ -35,6 +36,7 @@ class AddToWishlistView(APIView):
             return Response({'message': 'Product already exists in the wishlist'}, status=status.HTTP_200_OK)
 
 class RemoveFromWishlistView(APIView):
+    # authentication_classes = (authentication.CustomUserAuthentication,)
     def delete(self, request):
         product_id = request.data.get('product_id')
         user_id = request.data.get('user_id')
