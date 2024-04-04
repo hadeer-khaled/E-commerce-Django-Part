@@ -39,3 +39,49 @@ class ViewCartItems(APIView):
         cart_items = CartItem.objects.filter(cart=shopping_cart)
         serializer = CartItemSerializer(cart_items, many=True)
         return Response(serializer.data)
+
+
+class IncrementCartItemQuantityView(APIView):
+    # authentication_classes = (authentication.CustomUserAuthentication,)
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        cart_item_id = request.data.get('cart_item_id')
+        user = get_object_or_404(User, pk=user_id)
+
+        shopping_cart = get_object_or_404(ShoppingCart, user=user)
+        cart_item = get_object_or_404(CartItem, cart=shopping_cart, cart_item_id=cart_item_id)
+
+        cart_item.quantity += 1
+        cart_item.total_price = cart_item.product.price * cart_item.quantity  
+        cart_item.save()
+
+        data = CartItemSerializer(cart_item).data
+        data['total_price'] = cart_item.total_price
+
+        return Response(data)
+
+
+
+class DecrementCartItemQuantityView(APIView):
+    # authentication_classes = (authentication.CustomUserAuthentication,)
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        cart_item_id = request.data.get('cart_item_id')
+        user = get_object_or_404(User, pk=user_id)
+
+        shopping_cart = get_object_or_404(ShoppingCart, user=user)
+        cart_item = get_object_or_404(CartItem, cart=shopping_cart, cart_item_id=cart_item_id)
+
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.total_price = cart_item.product.price * cart_item.quantity
+            cart_item.save()
+
+            data = CartItemSerializer(cart_item).data
+            data['total_price'] = cart_item.total_price
+
+            return Response(data)
+        else:
+            cart_item.delete()
+            return Response({"detail": "Cart item removed from shopping cart."}, status=status.HTTP_204_NO_CONTENT)
+
