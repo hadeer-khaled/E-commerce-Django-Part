@@ -17,14 +17,14 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email , password=None):
+    def create_superuser(self, email , password=None, **extra_fields):
         if not email:
             raise ValueError("Email is required.")
 
         if not password:
             raise ValueError("Email is required.")
-    
-        user = self.create_user(email,password)
+
+        user = self.create_user(email,password,phone="",role="admin",**extra_fields)
         user.is_superuser = True
         user.role = "admin"
         user.save()
