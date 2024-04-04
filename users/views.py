@@ -11,6 +11,8 @@ from .validations import custom_validation
 import jwt , datetime
 from dotenv import load_dotenv
 import os
+from django.utils import timezone
+import pytz
 
 load_dotenv()
 
@@ -45,13 +47,12 @@ class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self,request):
-        
         valid_data =  custom_validation(request.data)
         serializer = UserRegisterSerializer(data=valid_data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.create(valid_data)
             if user:
-                return Response({"message":"User created successfully" } , status=status.HTTP_201_CREATED)
+                return Response(serializer.data , status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UserLogin(APIView):
@@ -64,14 +65,27 @@ class UserLogin(APIView):
 
             if serializer.is_valid(raise_exception=True):
                 user = serializer.check_user(data)
+            egypt_tz = pytz.timezone('Africa/Cairo')
+            now = timezone.now().astimezone(egypt_tz)
             payload = {
-                'id': user.user_id,
-                'exp': datetime.datetime.now() + datetime.timedelta(hours=2),
-                'iat': datetime.datetime.now()
+            'id': user.user_id,
+            'exp': now + datetime.timedelta(hours=2),
+            'iat': now 
             }
-            token = jwt.encode(payload,os.getenv('JWT_SECRET_KEY'), algorithm='HS256')
+            token = jwt.encode(payload, os.getenv('JWT_SECRET_KEY'), algorithm='HS256')
             
-            response = Response({"message":"logged in successfully"})
+            response = Response(data={ 
+                    "message":"Logged in successfully",
+                    "data":{
+                    "id": user.user_id,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "email": user.email,
+                    "phone": user.phone,
+                    # "image": user.image,
+                    # "username": user.username,
+                    }})
+
             response.set_cookie(key='jwt',value=token,httponly=True)
             return response
 
@@ -99,5 +113,4 @@ class UserView(APIView):
 		return Response({'user': serializer.data}, status=status.HTTP_200_OK)
 
         
-
 
