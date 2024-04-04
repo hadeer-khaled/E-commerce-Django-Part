@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from .models import Category
 from .serializers import CategorySerializer
 from utils.query_params import handle_query_params
+from django.core.exceptions import ValidationError
 
 class CategoryListView(APIView):
     def get(self, request):
@@ -22,3 +23,12 @@ class CategoryListView(APIView):
             return Response(response_data)
         except ValidationError as e:
             return Response({'error': str(e)}, status=400)
+        
+class CategoryDetailsView(APIView):
+    def get(self, request, category_id):
+        try:
+            category = Category.objects.get(pk=category_id)
+            serializer = CategorySerializer(category)
+            return Response(serializer.data)
+        except Category.DoesNotExist:
+            return Response({"error": "Category not found"}, status=404)
