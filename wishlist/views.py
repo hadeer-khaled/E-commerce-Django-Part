@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.http import Http404
 from users import authentication
+
 class WishlistListView(APIView):
     # authentication_classes = (authentication.CustomUserAuthentication,)
     # permission_classes = (permissions.IsAuthenticated,)
@@ -31,7 +32,8 @@ class AddToWishlistView(APIView):
 
         if not wishlist.products.filter(pk=product_id).exists():
             wishlist.products.add(product)
-            return Response({'message': 'Product added to wishlist successfully'}, status=status.HTTP_201_CREATED)
+            wishlist_serializer = WishlistSerializer(wishlist)
+            return Response({'message': 'Product added to wishlist successfully', 'added_product': wishlist_serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response({'message': 'Product already exists in the wishlist'}, status=status.HTTP_200_OK)
 
@@ -47,7 +49,10 @@ class RemoveFromWishlistView(APIView):
         wishlist.products.remove(product)
 
         if wishlist.products.count() == 0:
+            deleted_message = 'Product removed from wishlist and wishlist deleted'
             wishlist.delete()
-            return Response({'message': 'Product removed from wishlist and wishlist deleted'}, status=status.HTTP_204_NO_CONTENT)
         else:
-            return Response({'message': 'Product removed from wishlist'}, status=status.HTTP_204_NO_CONTENT)
+            deleted_message = 'Product removed from wishlist'
+
+        wishlist_serializer = WishlistSerializer(wishlist)
+        return Response({'message': deleted_message, 'removed_product': wishlist_serializer.data}, status=status.HTTP_204_NO_CONTENT)

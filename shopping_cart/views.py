@@ -4,8 +4,10 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import ShoppingCart
 from .serializer import ShoppingCartSerializer
+from users import authentication
 
 class DeleteShoppingCartView(APIView):
+    # authentication_classes = (authentication.CustomUserAuthentication,)
     def delete(self, request):
         user_id = request.query_params.get('user_id')
         if user_id is None:
