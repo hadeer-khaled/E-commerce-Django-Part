@@ -29,7 +29,7 @@ class SpecificUserOrdersView(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, user_id):
         try:
-            orders = Order.objects.filter(user_id=user_id)
+            orders = Order.objects.filter(user_id=user_id)       
             serializer = OrderSerializer(orders, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Order.DoesNotExist:

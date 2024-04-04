@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User
+from order.models import Order
+from order.serializers import OrderSerializer
 from .serializers import UserSerializer
 from .serializers import UserLoginSerializer , UserRegisterSerializer , UserSerializer
 from .validations import custom_validation 
@@ -40,9 +42,18 @@ class OneUserView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        
+class OneUserOrdersView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, user_id):
+        try:
+            orders = Order.objects.filter(user_id=user_id)       
+            serializer = OrderSerializer(orders, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Order.DoesNotExist:
+            return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
 
-    
 class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
 
