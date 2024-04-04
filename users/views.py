@@ -19,6 +19,7 @@ class UserView(APIView):
         return Response(data="Hello",status=201)
 
 class OneUserView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self,request, user_id ):
         try:
             user = User.objects.get(user_id=user_id)
@@ -28,6 +29,7 @@ class OneUserView(APIView):
             return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
         
     def patch(self, request, user_id):
+        permission_classes = (permissions.AllowAny,)
         try:
             user = User.objects.get(user_id=user_id)
             print(request.data)
@@ -90,12 +92,13 @@ class UserLogout(APIView):
 
 
 class UserView(APIView):
-	permission_classes = (permissions.IsAuthenticated,)
-	authentication_classes = (SessionAuthentication,)
+	# permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = (SessionAuthentication,)
 	
-	def get(self, request):
-		serializer = UserSerializer(request.user)
-		return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response({'user': serializer.data}, status=status.HTTP_200_OK)
 
         
 

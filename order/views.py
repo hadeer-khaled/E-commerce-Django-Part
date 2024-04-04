@@ -1,12 +1,13 @@
 from rest_framework.views import APIView
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Order
 from .serializers import OrderSerializer
 
 class AllOrdersView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self,request ):
-    
         orders = Order.objects.all()
         if orders.exists():  # Check if there are any orders
             serializer = OrderSerializer(orders, many=True)
@@ -15,6 +16,7 @@ class AllOrdersView(APIView):
             return Response({"error": "No orders found"}, status=status.HTTP_404_NOT_FOUND)
         
 class SpecificOrderView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, order_id):
         try:
             order = Order.objects.get(order_id=order_id)
@@ -24,6 +26,7 @@ class SpecificOrderView(APIView):
             return Response({"error": "Order does not exist"}, status=status.HTTP_404_NOT_FOUND)
         
 class SpecificUserOrdersView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, user_id):
         try:
             orders = Order.objects.filter(user_id=user_id)

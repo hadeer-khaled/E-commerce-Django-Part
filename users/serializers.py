@@ -38,7 +38,7 @@ class UserLoginSerializer(serializers.Serializer):
 			raise ValidationError('user not found')
 		return user
 
-class UserSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = User
-		fields = ['email', 'username']
+# class UserSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = User
+# 		fields = ['email', 'username']
