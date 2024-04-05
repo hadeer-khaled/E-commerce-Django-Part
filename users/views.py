@@ -112,5 +112,37 @@ class UserView(APIView):
 		serializer = UserSerializer(request.user)
 		return Response({'user': serializer.data}, status=status.HTTP_200_OK)
 
-        
+class AdminLogin(APIView):
+    permission_classes = (permissions.AllowAny,)
 
+    def post(self, request):
+        try:
+            data = request.data
+            serializer = UserLoginSerializer(data=data)
+
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.check_admin(data)
+            egypt_tz = pytz.timezone('Africa/Cairo')
+            now = timezone.now().astimezone(egypt_tz)
+            payload = {
+            'id': user.user_id,
+            'exp': now + datetime.timedelta(hours=2),
+            'iat': now 
+            }
+            token = jwt.encode(payload, os.getenv('JWT_SECRET_KEY'), algorithm='HS256')
+            
+            response = Response(data={ 
+                    "message":"Logged in successfully",
+                    "data":{
+                    "id": user.user_id,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "email": user.email,
+                    "phone": user.phone,
+                    # "image": user.image,
+                    # "username": user.username,
+                    }})
+            response.set_cookie(key='jwt',value=token,httponly=True)
+            return response   
+        except:   
+            return  Response({"message":"Unautorized !!"},status=status.HTTP_401_UNAUTHORIZED)   
