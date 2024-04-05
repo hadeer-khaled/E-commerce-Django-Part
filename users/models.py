@@ -4,6 +4,10 @@ from django.contrib.auth.base_user import BaseUserManager
 
 roles = (('user','User'),('admin','Admin'))
 
+def upload_to(instance, filename):
+    return 'users_images/{filename}'.format(filename=filename)
+
+
 class UserManager(BaseUserManager):
 
     def create_user(self,email,password,first_name,last_name,phone,role):
@@ -17,15 +21,16 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email , password=None):
+    def create_superuser(self, email , password=None, **extra_fields):
         if not email:
             raise ValueError("Email is required.")
 
         if not password:
             raise ValueError("Email is required.")
-    
-        user = self.create_user(email,password)
+
+        user = self.create_user(email,password,phone="",role="admin",**extra_fields)
         user.is_superuser = True
+        user.is_staff = True
         user.role = "admin"
         user.save()
         return user
@@ -36,12 +41,12 @@ class User (AbstractUser,PermissionsMixin):
         user_id = models.BigAutoField(primary_key=True)
         first_name = models.CharField(max_length=20)
         last_name = models.CharField(max_length=20)
-        username = models.CharField(max_length=15,unique=True)
+        # username = models.CharField(max_length=15,unique=True)
         email = models.CharField(max_length=50,unique=True)
         password = models.CharField(max_length=100)
         role = models.CharField(choices=roles,max_length=5)
         phone = models.CharField(max_length=11)
-        image = models.ImageField( blank=True , upload_to='users_images/'  , default='users_images/default.png')
+        image = models.ImageField( blank=True , upload_to= upload_to  , default='users_images/default.png')
         objects = UserManager()
 
         USERNAME_FIELD= 'email'

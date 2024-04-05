@@ -13,6 +13,7 @@ from .validations import custom_validation
 import jwt , datetime
 from dotenv import load_dotenv
 import os
+from rest_framework.parsers import MultiPartParser, FormParser
 
 load_dotenv()
 
@@ -22,6 +23,8 @@ class UserView(APIView):
 
 class OneUserView(APIView):
     permission_classes = (permissions.AllowAny,)
+    parser_classes = (MultiPartParser, FormParser)
+    
     def get(self,request, user_id ):
         try:
             user = User.objects.get(user_id=user_id)
@@ -30,11 +33,23 @@ class OneUserView(APIView):
         except User.DoesNotExist:
             return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
         
+    # def patch(self, request, user_id):
+    #     permission_classes = (permissions.AllowAny,)
+    #     try:
+    #         user = User.objects.get(user_id=user_id)
+    #         print(request.data)
+    #         serializer = UserSerializer(user, data=request.data, partial=True)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             return Response(serializer.data, status=status.HTTP_200_OK)
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #     except User.DoesNotExist:
+    #         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+   
     def patch(self, request, user_id):
-        permission_classes = (permissions.AllowAny,)
         try:
             user = User.objects.get(user_id=user_id)
-            print(request.data)
+            print("Request Data:", request.data)
             serializer = UserSerializer(user, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()

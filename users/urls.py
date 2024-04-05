@@ -2,6 +2,8 @@ from .views import UserView , UserLogin , UserRegister , UserLogout
 from django.urls import path
 from .views import UserView , OneUserView , OneUserOrdersView
 from order_item.views import  OrderItemDetailView 
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', UserView.as_view()),
@@ -12,3 +14,4 @@ urlpatterns = [
     path('register/', UserRegister.as_view()),
     path('logout/', UserLogout.as_view()),
 ]
+urlpatterns +=  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
