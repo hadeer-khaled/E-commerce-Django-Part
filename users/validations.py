@@ -4,7 +4,7 @@ User = get_user_model()
 
 def custom_validation(data):
     email = data['email'].strip()
-    username = data['username'].strip()
+    # username = data['username'].strip()
     password = data['password'].strip()
     phone = data['phone'].strip()
     first_name = data['first_name'].strip()
@@ -19,8 +19,8 @@ def custom_validation(data):
     if not password or len(password) < 8:
         raise ValidationError('choose another password, min 8 characters')
     
-    if not username:
-        raise ValidationError('choose another username')
+    # if not username:
+    #     raise ValidationError('choose another username')
     
     if not first_name:
             raise ValidationError('First name is required')
@@ -37,11 +37,11 @@ def validate_email(data):
         raise ValidationError('an email is needed')
     return True
 
-def validate_username(data):
-    username = data['username'].strip()
-    if not username:
-        raise ValidationError('choose another username')
-    return True
+# def validate_username(data):
+#     username = data['username'].strip()
+#     if not username:
+#         raise ValidationError('choose another username')
+#     return True
 
 def validate_password(data):
     password = data['password'].strip()

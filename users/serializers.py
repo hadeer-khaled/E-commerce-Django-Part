@@ -29,15 +29,20 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 class UserLoginSerializer(serializers.Serializer):
-	email = serializers.EmailField()
-	password = serializers.CharField()
-	
-	def check_user(self, validated_data):
-		user = authenticate(username=validated_data['email'], password=validated_data['password'])
-		if not user:
-			raise ValidationError('user not found')
-		return user
+    email = serializers.EmailField()
+    password = serializers.CharField()
 
+    def check_user(self, validated_data):
+        user = authenticate(username=validated_data['email'], password=validated_data['password'])
+        if not user:
+            raise ValidationError('User not found')
+        return user
+
+    def check_admin(self, validated_data):
+        user = authenticate(username=validated_data['email'], password=validated_data['password'])
+        if not user or not user.is_superuser:
+            raise ValidationError('Admin not found')
+        return user
 class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
