@@ -47,47 +47,52 @@ class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self,request):
-        valid_data =  custom_validation(request.data)
-        serializer = UserRegisterSerializer(data=valid_data)
-        if serializer.is_valid(raise_exception=True):
-            user = serializer.create(valid_data)
-            if user:
-                return Response(serializer.data , status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            valid_data =  custom_validation(request.data)
+            serializer = UserRegisterSerializer(data=valid_data)
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.create(valid_data)
+                if user:
+                    return Response(serializer.data , status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+            return Response({"Message":"Error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class UserLogin(APIView):
 	permission_classes = (permissions.AllowAny,)
 	authentication_classes = (SessionAuthentication,)
 	
 	def post(self, request):
-            data = request.data
-            serializer = UserLoginSerializer(data=data)
+            try:
+                data = request.data
+                serializer = UserLoginSerializer(data=data)
 
-            if serializer.is_valid(raise_exception=True):
-                user = serializer.check_user(data)
-            egypt_tz = pytz.timezone('Africa/Cairo')
-            now = timezone.now().astimezone(egypt_tz)
-            payload = {
-            'id': user.user_id,
-            'exp': now + datetime.timedelta(hours=2),
-            'iat': now 
-            }
-            token = jwt.encode(payload, os.getenv('JWT_SECRET_KEY'), algorithm='HS256')
-            
-            response = Response(data={ 
-                    "message":"Logged in successfully",
-                    "data":{
-                    "id": user.user_id,
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
-                    "email": user.email,
-                    "phone": user.phone,
-                    # "image": user.image,
-                    # "username": user.username,
-                    }})
+                if serializer.is_valid(raise_exception=True):
+                    user = serializer.check_user(data)
+                egypt_tz = pytz.timezone('Africa/Cairo')
+                now = timezone.now().astimezone(egypt_tz)
+                payload = {
+                'id': user.user_id,
+                'exp': now + datetime.timedelta(hours=2),
+                'iat': now 
+                }
+                token = jwt.encode(payload, os.getenv('JWT_SECRET_KEY'), algorithm='HS256')
+                
+                response = Response(data={ 
+                        "message":"Logged in successfully",
+                        "data":{
+                        "id": user.user_id,
+                        "first_name": user.first_name,
+                        "last_name": user.last_name,
+                        "email": user.email,
+                        "phone": user.phone,
+                        "image": user.image,
+                        }})
 
-            response.set_cookie(key='jwt',value=token,httponly=True)
-            return response
+                response.set_cookie(key='jwt',value=token,httponly=True)
+                return response
+            except:
+                return Response({"message":"Incorrect email or password"},status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserLogout(APIView):
@@ -139,8 +144,7 @@ class AdminLogin(APIView):
                     "last_name": user.last_name,
                     "email": user.email,
                     "phone": user.phone,
-                    # "image": user.image,
-                    # "username": user.username,
+                    "image": user.image,
                     }})
             response.set_cookie(key='jwt',value=token,httponly=True)
             return response   

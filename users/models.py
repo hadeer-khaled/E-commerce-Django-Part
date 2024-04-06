@@ -42,10 +42,10 @@ class User (AbstractUser,PermissionsMixin):
         password = models.CharField(max_length=100)
         role = models.CharField(choices=roles,max_length=5)
         phone = models.CharField(max_length=11)
-        image = models.ImageField( blank=True , upload_to='users_images/'  , default='users_images/default.png')
+        image = models.CharField(max_length=200,null=True)
         objects = UserManager()
 
-        USERNAME_FIELD= 'email'
+        # USERNAME_FIELD= 'email'
         REQUIRED_FIELDS=['first_name','last_name']
 
         def __str__(self):

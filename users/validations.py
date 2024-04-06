@@ -19,29 +19,19 @@ def custom_validation(data):
     if not password or len(password) < 8:
         raise ValidationError('choose another password, min 8 characters')
     
-    # if not username:
-    #     raise ValidationError('choose another username')
-    
     if not first_name:
             raise ValidationError('First name is required')
         
     if not last_name:
             raise ValidationError('Last name is required')
-    
     return data
 
 
 def validate_email(data):
     email = data['email'].strip()
-    if not email:
+    if not email or len(email) != 2:
         raise ValidationError('an email is needed')
     return True
-
-# def validate_username(data):
-#     username = data['username'].strip()
-#     if not username:
-#         raise ValidationError('choose another username')
-#     return True
 
 def validate_password(data):
     password = data['password'].strip()
