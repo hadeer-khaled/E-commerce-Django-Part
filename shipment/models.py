@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import User
 class Shipment(models.Model):
-    stauts_choices = [ ("pending","pending") , ("shipped" ,"shipped") ,("delivered" ,"delivered")]
+    stauts_choices = [ ("pending","pending") , ("shipped" ,"shipped") ,("delivered" ,"delivered") , ("cancelled" , "cancelled")]
 
     shipment_id =models.AutoField(primary_key=True , default=1)
     # user_id = models.IntegerField()
