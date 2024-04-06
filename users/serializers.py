@@ -45,7 +45,3 @@ class UserLoginSerializer(serializers.Serializer):
         if not user or not user.is_superuser:
             raise ValidationError('Admin not found')
         return user
-class UserSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = User
-		fields = ['email', 'username']
