@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Order
 from shipment.models import Shipment
+from shipment.models import Shipment
 from .serializers import OrderSerializer
 
 class AllOrdersView(APIView):
