@@ -46,7 +46,7 @@ class User (AbstractUser,PermissionsMixin):
         password = models.CharField(max_length=100)
         role = models.CharField(choices=roles,max_length=5)
         phone = models.CharField(max_length=11)
-        image = models.ImageField( blank=True , upload_to= upload_to  , default='users_images/default.png')
+        image = models.ImageField( blank=True , upload_to= upload_to  , default='users_images/default_image.png')
         objects = UserManager()
 
         USERNAME_FIELD= 'email'
