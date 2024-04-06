@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
+import datetime
 
 roles = (('user','User'),('admin','Admin'))
 
@@ -32,16 +33,17 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.is_staff = True
         user.role = "admin"
+        user.username = datetime.now()
+        print(user.username)
         user.save()
         return user
-    
 # Create your models here.
 class User (AbstractUser,PermissionsMixin):
 
         user_id = models.BigAutoField(primary_key=True)
         first_name = models.CharField(max_length=20)
         last_name = models.CharField(max_length=20)
-        # username = models.CharField(max_length=15,unique=True)
+        username = models.CharField(max_length=15,unique=True)
         email = models.CharField(max_length=50,unique=True)
         password = models.CharField(max_length=100)
         role = models.CharField(choices=roles,max_length=5)
