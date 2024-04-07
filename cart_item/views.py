@@ -101,8 +101,8 @@ class DecrementCartItemQuantityView(APIView):
 
 class RemoveFromCartView(APIView):
     def delete(self, request):
-        cart_item_id = request.data.get('cart_item_id')
-        user_id = request.data.get('user_id')
+        cart_item_id = request.query_params.get('cart_item_id')
+        user_id = request.query_params.get('user_id')
 
         user = get_object_or_404(User, pk=user_id)
         shopping_cart = get_object_or_404(ShoppingCart, user=user)
@@ -118,4 +118,4 @@ class RemoveFromCartView(APIView):
             message = 'Cart item removed from shopping cart.'
 
         serializer = CartItemSerializer(cart_item)
-        return Response({"detail": message, "deleted_cart_item": serializer.data}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail": message, "deleted_cart_item": serializer.data}, status=204)
