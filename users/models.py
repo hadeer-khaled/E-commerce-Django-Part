@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
+import datetime 
 
 roles = (('user','User'),('admin','Admin'))
 
@@ -28,6 +29,7 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.is_staff = True
         user.role = "admin"
+        user.username = datetime.now()
         user.save()
         return user
     
@@ -45,7 +47,7 @@ class User (AbstractUser,PermissionsMixin):
         image = models.CharField(max_length=200,null=True)
         objects = UserManager()
 
-        # USERNAME_FIELD= 'email'
+        USERNAME_FIELD= 'email'
         REQUIRED_FIELDS=['first_name','last_name']
 
         def __str__(self):

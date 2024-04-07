@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=40)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
