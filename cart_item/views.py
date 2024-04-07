@@ -117,4 +117,5 @@ class RemoveFromCartView(APIView):
         else:
             message = 'Cart item removed from shopping cart.'
 
-        return Response({"detail": message}, status=status.HTTP_204_NO_CONTENT)
+        serializer = CartItemSerializer(cart_item)
+        return Response({"detail": message, "deleted_cart_item": serializer.data}, status=status.HTTP_204_NO_CONTENT)
