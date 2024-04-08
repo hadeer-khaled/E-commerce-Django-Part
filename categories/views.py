@@ -8,8 +8,11 @@ from django.core.exceptions import ValidationError
 class CategoryListView(APIView):
     def get(self, request):
         queryset = Category.objects.all()
-        params = request.query_params
+        params = request.query_params.copy()
         search_fields = ['name']
+
+        if 'category_id' in params and params['category_id'] == '':
+            del params['category_id']
         
         try:
             result = handle_query_params(queryset, params, search_fields)
