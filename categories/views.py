@@ -1,9 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Category
-from .serializers import CategorySerializer
 from utils.query_params import handle_query_params
 from django.core.exceptions import ValidationError
+from .serializers import CategorySerializer, CategoryCreateSerializer, CategoryUpdateSerializer
+from rest_framework import status
+from rest_framework.views import APIView
 
 class CategoryListView(APIView):
     def get(self, request):
@@ -27,6 +29,13 @@ class CategoryListView(APIView):
         except ValidationError as e:
             return Response({'error': str(e)}, status=400)
         
+    def post(self, request):
+        serializer = CategoryCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
 class CategoryDetailsView(APIView):
     def get(self, request, category_id):
         try:
@@ -35,3 +44,36 @@ class CategoryDetailsView(APIView):
             return Response(serializer.data)
         except Category.DoesNotExist:
             return Response({"error": "Category not found"}, status=404)
+
+    def put(self, request, category_id):
+        try:
+            category = Category.objects.get(pk=category_id)
+        except Category.DoesNotExist:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CategoryUpdateSerializer(category, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, category_id):
+        try:
+            category = Category.objects.get(pk=category_id)
+        except Category.DoesNotExist:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CategoryUpdateSerializer(category, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, category_id):
+        try:
+            category = Category.objects.get(pk=category_id)
+        except Category.DoesNotExist:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

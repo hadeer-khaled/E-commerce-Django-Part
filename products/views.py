@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from .models import Product, ProductImage, Category
 from utils.query_params import handle_query_params
 from django.core.exceptions import ValidationError
+from .serializers import ProductSerializer, ProductCreateSerializer, ProductUpdateSerializer, ProductImageSerializer
+from rest_framework import status
 
 class ProductListView(APIView):
     def get(self, request):
@@ -31,6 +33,13 @@ class ProductListView(APIView):
             return Response(response_data)
         except ValidationError as e:
             return Response({'error': str(e)}, status=400)
+        
+    def post(self, request):
+        serializer = ProductCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProductDetailsView(APIView):
     def get(self, request, product_id):
@@ -39,11 +48,57 @@ class ProductDetailsView(APIView):
             return Response(product_data)
         except ValidationError as e:
             return Response({"error": str(e)}, status=404)
+    
+    def put(self, request, product_id):
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProductUpdateSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, product_id):
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProductUpdateSerializer(product, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, product_id):
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
         
 class ProductImagesView(APIView):
     def get(self, request, product_id):
         image_urls = get_image_urls(product_id)
         return Response(image_urls)
+    
+    def post(self, request, product_id):
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProductImageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(product=product)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 def get_image_urls(product_id):
     product_images = ProductImage.objects.filter(product_id=product_id)
@@ -74,3 +129,4 @@ def get_product_details(product_id):
         return product_data
     except Product.DoesNotExist:
         raise ValidationError("Product not found")
+
