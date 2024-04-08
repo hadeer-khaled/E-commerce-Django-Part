@@ -9,7 +9,7 @@ urlpatterns = [
     path('', UserView.as_view()),
     path('user/<int:user_id>/',OneUserView.as_view()),
     path('user/<int:user_id>/orders/',OneUserOrdersView.as_view()),
-    path('user/<int:user_id>/orders/order/<int:order_id>/',OrderItemDetailView.as_view()),
+    path('user/orders/order/<int:order_id>/',OrderItemDetailView.as_view()),
     path('login/', UserLogin.as_view() ),
     path('register/', UserRegister.as_view()),
     path('logout/', UserLogout.as_view()),

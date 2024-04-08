@@ -9,7 +9,7 @@ from products.models import Product
 
 class OrderItemDetailView(APIView):
     permission_classes = (permissions.AllowAny,)
-    def get(self, request, order_id,user_id):
+    def get(self, request, order_id):
         order_items = Order_Item.objects.filter(order_id=order_id)
-        serializer = OrderItemSerializer(order_items, many=True)
+        serializer = OrderItemSerializer(order_items, context={'request': request}, many=True)
         return Response(serializer.data)
