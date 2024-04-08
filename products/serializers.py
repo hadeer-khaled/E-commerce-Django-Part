@@ -9,13 +9,11 @@ class ProductSerializer(serializers.ModelSerializer):
 class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        # exclude = ['product_id']
         fields = '__all__'
 
-
-    def validate_name(self, value):
-        # if Product.objects.filter(name=value).exists():
-        #     raise serializers.ValidationError("Product with this name already exists.")
+    def validate_payment_id(self, value):
+        if Product.objects.filter(payment_id=value).exists():
+            raise serializers.ValidationError("Product with this payment_id already exists.")
         return value
 
 class ProductUpdateSerializer(serializers.ModelSerializer):
@@ -23,9 +21,9 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
-    def validate_name(self, value):
-        # if Product.objects.exclude(product_id=self.instance.product_id).filter(name=value).exists():
-        #     raise serializers.ValidationError("Product with this name already exists.")
+    def validate_payment_id(self, value):
+        if Product.objects.exclude(pk=self.instance.pk).filter(payment_id=value).exists():
+            raise serializers.ValidationError("Product with this payment_id already exists.")
         return value
 
 class ProductImageSerializer(serializers.ModelSerializer):

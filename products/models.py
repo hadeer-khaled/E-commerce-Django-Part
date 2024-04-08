@@ -10,6 +10,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     description = models.CharField(max_length=255)
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
+    payment_id = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
