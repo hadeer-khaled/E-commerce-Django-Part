@@ -7,9 +7,14 @@ from django.core.exceptions import ValidationError
 class ProductListView(APIView):
     def get(self, request):
         queryset = Product.objects.all()
-        params = request.query_params
+        params = request.query_params.copy()
         search_fields = ['name']
-        
+        print("Params before modification:", params)
+
+        if 'category' in params and params['category'] == '':
+            del params['category']
+        print("Params after modification:", params)
+
         try:
             result = handle_query_params(queryset, params, search_fields)
             products_data = []

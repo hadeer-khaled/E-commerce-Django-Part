@@ -16,7 +16,7 @@ def insert_dummy_data():
             "price": 899,
             "stock": 20,
             "description": "The Google Pixel 6 is here, with an incredible camera and smooth performance.",
-            "avg_rating": 4.5,
+            "avg_rating": 3.4,
         }
     )
 
@@ -192,7 +192,7 @@ def insert_dummy_data():
             "price": 79,
             "stock": 30,
             "description": "Dior Sauvage, a bold and woody fragrance for men.",
-            "avg_rating": 4.5,
+            "avg_rating": 3.9,
         }
     )
 
