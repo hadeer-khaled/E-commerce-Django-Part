@@ -4,6 +4,7 @@ from .models import Category
 from .serializers import CategorySerializer
 from utils.query_params import handle_query_params
 from django.core.exceptions import ValidationError
+from rest_framework import status
 
 class CategoryListView(APIView):
     def get(self, request):
@@ -32,3 +33,25 @@ class CategoryDetailsView(APIView):
             return Response(serializer.data)
         except Category.DoesNotExist:
             return Response({"error": "Category not found"}, status=404)
+
+
+class AddCategoryView(APIView):
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteCategoryView(APIView):
+    def delete(self,request, category_id):
+        try:
+            category = Category.objects.get(pk=category_id)
+            category.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Category.DoesNotExist:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
