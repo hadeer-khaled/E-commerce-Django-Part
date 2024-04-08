@@ -3,13 +3,27 @@ from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 
 def handle_query_params(queryset, params, search_fields):
-    page = int(params.get('page', 1))
-    limit = int(params.get('limit', 10))
+    params = params.copy()
+    max_limit = 50
+    
+    if params.get('page', 1) == '':
+        page = 1
+    else:
+        page = int(params.get('page', 1))
+    if params.get('limit', 10) == '':
+        limit = max_limit
+    else:
+        limit = int(params.get('limit', 10))
+
     order_by = params.get('order', None)
     search = params.get('search', None)
     filters = {k: v for k, v in params.items() if k not in ['page', 'limit', 'order', 'search']}
 
-    if page < 1 or limit < 1 or limit > 30:
+    for key, value in list(params.items()):
+        if value == '':
+            del params[key]
+
+    if page < 1 or limit < 1 or limit > max_limit:
         raise ValidationError({'detail': 'Invalid pagination parameters'})
 
     filter_conditions = Q()
