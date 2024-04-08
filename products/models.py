@@ -2,6 +2,11 @@ from django.db import models
 from categories.models import Category
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+def upload_to(instance, filename):
+    return 'products_images/{filename}'.format(filename=filename)
+
+
+
 class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -10,6 +15,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     description = models.CharField(max_length=255)
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
+    image = models.ImageField( blank=True , upload_to= upload_to  , default='products_images/default_product.png')
 
     def __str__(self):
         return self.name
