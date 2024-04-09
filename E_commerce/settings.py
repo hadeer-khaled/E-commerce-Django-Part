@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SETTINGS_SECRET_KEY')
+# SECRET_KEY = "aaaasdacaqjnlkpoiamsalas"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -99,17 +100,26 @@ WSGI_APPLICATION = 'E_commerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#         'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('DB_USER'),
+#         'PASSWORD': os.getenv('DB_PASSWORD'),
+#         'HOST': os.getenv('DB_HOST'),
+#         'PORT': os.getenv('DB_PORT'),
+#     }
+# }
 DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'NAME': "e_commerce",
+        'USER':"root",
+        'PASSWORD': "root",
+        'HOST': "127.0.0.1",
+        'PORT': "3306",
     }
 }
-
 
 # Custom User model 
 AUTH_USER_MODEL = 'users.User'
@@ -159,10 +169,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR , "media")
-MEDIA_URL = '' # edited for dummy data trying direct links of images
-MEDIA_ROOT = os.path.join(BASE_DIR , "") # edited for dummy data trying direct links of images
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR , "media")
+# MEDIA_URL = '' # edited for dummy data trying direct links of images
+# MEDIA_ROOT = os.path.join(BASE_DIR , "") # edited for dummy data trying direct links of images
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

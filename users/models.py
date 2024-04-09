@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
-import datetime 
+import datetime
 
 roles = (('user','User'),('admin','Admin'))
+
+def upload_to(instance, filename):
+    return 'users_images/{filename}'.format(filename=filename)
+
 
 class UserManager(BaseUserManager):
 
@@ -32,7 +36,6 @@ class UserManager(BaseUserManager):
         user.username = datetime.now()
         user.save()
         return user
-    
 # Create your models here.
 class User (AbstractUser,PermissionsMixin):
 
@@ -44,7 +47,7 @@ class User (AbstractUser,PermissionsMixin):
         password = models.CharField(max_length=100)
         role = models.CharField(choices=roles,max_length=5)
         phone = models.CharField(max_length=11)
-        image = models.CharField(max_length=200,null=True)
+        image = models.ImageField( blank=True , upload_to= upload_to  , default='users_images/default_image.png')
         objects = UserManager()
 
         USERNAME_FIELD= 'email'

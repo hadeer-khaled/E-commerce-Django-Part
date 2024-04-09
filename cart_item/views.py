@@ -8,6 +8,7 @@ from users.models import User
 from shopping_cart.models import ShoppingCart
 from products.models import Product
 from users import authentication
+from django.db.models import Sum
 
 class AddToCartView(APIView):
     # authentication_classes = (authentication.CustomUserAuthentication,)
@@ -31,14 +32,26 @@ class AddToCartView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class ViewCartItems(APIView):
-    # authentication_classes = (authentication.CustomUserAuthentication,
+    # authentication_classes = (authentication.CustomUserAuthentication,)
     def get(self, request):
         user_id = request.query_params.get('user_id')
         user = get_object_or_404(User, pk=user_id)
         shopping_cart = get_object_or_404(ShoppingCart, user=user)
         cart_items = CartItem.objects.filter(cart=shopping_cart)
+        
+        total_quantity = cart_items.aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
+
+        cart_items_count = cart_items.count()
+
         serializer = CartItemSerializer(cart_items, many=True)
-        return Response(serializer.data)
+        
+        data = {
+            'cart_items_count': cart_items_count,
+            'total_quantity': total_quantity,
+            'cart_items': serializer.data
+        }
+
+        return Response(data)
 
 
 class IncrementCartItemQuantityView(APIView):
@@ -85,3 +98,24 @@ class DecrementCartItemQuantityView(APIView):
             cart_item.delete()
             return Response({"detail": "Cart item removed from shopping cart."}, status=status.HTTP_204_NO_CONTENT)
 
+
+class RemoveFromCartView(APIView):
+    def delete(self, request):
+        cart_item_id = request.query_params.get('cart_item_id')
+        user_id = request.query_params.get('user_id')
+
+        user = get_object_or_404(User, pk=user_id)
+        shopping_cart = get_object_or_404(ShoppingCart, user=user)
+        cart_item = get_object_or_404(CartItem, cart=shopping_cart, pk=cart_item_id)
+
+        cart_item.delete()
+
+        # Check if the shopping cart is empty after deleting the item
+        if shopping_cart.cartitem_set.count() == 0:
+            shopping_cart.delete()
+            message = 'Shopping cart removed as it is empty.'
+        else:
+            message = 'Cart item removed from shopping cart.'
+
+        serializer = CartItemSerializer(cart_item)
+        return Response({"detail": message, "deleted_cart_item": serializer.data}, status=204)
