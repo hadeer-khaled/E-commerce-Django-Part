@@ -17,6 +17,9 @@ urlpatterns = [
     path('orders/',include("order.urls")),
     path('products', ProductListView.as_view(), name='product-list'),
     path('wishlist/',include('wishlist.urls')),
+    path('orders/',include("order.urls")),
+    path('orderitem/',include("order_item.urls")),
+    path('payment/',include('payment.urls')),
     path('shoppingCart/',include('shopping_cart.urls')),
     path('cartItem/',include('cart_item.urls')),
     ] +static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
