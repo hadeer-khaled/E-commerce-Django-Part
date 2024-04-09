@@ -78,6 +78,9 @@ class UserLogin(APIView):
             try:
                 data = request.data
                 serializer = UserLoginSerializer(data=data)
+            try:
+                data = request.data
+                serializer = UserLoginSerializer(data=data)
 
                 if serializer.is_valid(raise_exception=True):
                     user = serializer.check_user(data)
@@ -98,6 +101,7 @@ class UserLogin(APIView):
                         "last_name": user.last_name,
                         "email": user.email,
                         "phone": user.phone,
+                        "image": user.image,
                         }})
 
                 response.set_cookie(key='jwt',value=token,httponly=True)

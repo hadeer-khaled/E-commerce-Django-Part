@@ -34,7 +34,6 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.role = "admin"
         user.username = datetime.now()
-        print(user.username)
         user.save()
         return user
 # Create your models here.

@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from django.contrib.auth import get_user_model , authenticate
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password, check_password
 
 User = get_user_model()
 
