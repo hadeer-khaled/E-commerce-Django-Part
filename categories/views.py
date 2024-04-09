@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from .models import Category
 from utils.query_params import handle_query_params
 from django.core.exceptions import ValidationError
+from rest_framework import status
 from .serializers import CategorySerializer, CategoryCreateSerializer, CategoryUpdateSerializer
 from rest_framework import status
 from rest_framework.views import APIView
@@ -45,35 +46,24 @@ class CategoryDetailsView(APIView):
         except Category.DoesNotExist:
             return Response({"error": "Category not found"}, status=404)
 
-    def put(self, request, category_id):
-        try:
-            category = Category.objects.get(pk=category_id)
-        except Category.DoesNotExist:
-            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = CategoryUpdateSerializer(category, data=request.data)
+class AddCategoryView(APIView):
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, category_id):
+class DeleteCategoryView(APIView):
+    def delete(self,request, category_id):
         try:
             category = Category.objects.get(pk=category_id)
+            category.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Category.DoesNotExist:
             return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = CategoryUpdateSerializer(category, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, category_id):
-        try:
-            category = Category.objects.get(pk=category_id)
-        except Category.DoesNotExist:
-            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        category.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
