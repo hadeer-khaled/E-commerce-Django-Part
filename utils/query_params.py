@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 
@@ -49,7 +48,13 @@ def handle_query_params(queryset, params, search_fields):
     try:
         data = paginator.page(page)
     except EmptyPage:
-        raise ValidationError({'detail': 'Page not found'})
+        # Return empty array if page is not found
+        return {
+            'data': [],
+            'current_page': 1,
+            'total_pages': 1,
+            'total_count': 0
+        }
 
     return {
         'data': data.object_list,
