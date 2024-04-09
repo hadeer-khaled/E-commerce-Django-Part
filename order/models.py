@@ -5,7 +5,7 @@ from users.models import User
 
 
 class Order(models.Model):
-    order_id = models.AutoField(primary_key=True , default=1)
+    order_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE , db_column ='user_id')
     order_date = models.DateTimeField(default=timezone.now)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
