@@ -16,6 +16,7 @@ class Product(models.Model):
     description = models.CharField(max_length=255)
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
     image = models.ImageField( blank=True , upload_to= upload_to  , default='products_images/default_product.png')
+    payment_id = models.CharField(max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.name
