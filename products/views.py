@@ -125,7 +125,7 @@ def get_product_details(product_id):
             "avg_rating": product.avg_rating,
             "category": category_name,
             "images": image_urls,
-            "payment_id": product.payment_id
+            # "payment_id": product.payment_id
         }
         return product_data
     except Product.DoesNotExist:
