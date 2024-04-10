@@ -17,17 +17,32 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         print(validated_data)
+
+        if (validated_data['image'] != ""):
+            user = User.objects.create(
+                email=validated_data['email'],
+                password=make_password(validated_data['password']),
+                first_name=validated_data['first_name'],
+                last_name=validated_data['last_name'],
+                phone=validated_data['phone'],
+                role=validated_data['role'],
+                username=validated_data['phone'],
+                image=validated_data['image']
+                )
+            user.save()
+            return user
+        
         user = User.objects.create(
-            email=validated_data['email'],
-            password=make_password(validated_data['password']),
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            phone=validated_data['phone'],
-            role=validated_data['role'],
-            username=validated_data['phone']
-            )
+        email=validated_data['email'],
+        password=make_password(validated_data['password']),
+        first_name=validated_data['first_name'],
+        last_name=validated_data['last_name'],
+        phone=validated_data['phone'],
+        role=validated_data['role'],
+        username=validated_data['phone'],
+        )
         user.save()
-        return user
+        return user       
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
