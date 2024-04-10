@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model , authenticate
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.hashers import make_password, check_password
+from rest_framework.response import Response
 
 User = get_user_model()
 
@@ -16,9 +17,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         fields = ['user_id', 'first_name', 'last_name', 'image','email', 'phone']
     
     def create(self, validated_data):
-        print(validated_data)
-
-        if (validated_data['image'] != ""):
+        try:
             user = User.objects.create(
                 email=validated_data['email'],
                 password=make_password(validated_data['password']),
@@ -31,18 +30,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
                 )
             user.save()
             return user
-        
-        user = User.objects.create(
-        email=validated_data['email'],
-        password=make_password(validated_data['password']),
-        first_name=validated_data['first_name'],
-        last_name=validated_data['last_name'],
-        phone=validated_data['phone'],
-        role=validated_data['role'],
-        username=validated_data['phone'],
-        )
-        user.save()
-        return user       
+        except ValidationError as e:
+            return Response({"message": str(e)})
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()

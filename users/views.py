@@ -61,7 +61,9 @@ class UserRegister(APIView):
 
     def post(self,request):
         try:
+            print(request.data)
             valid_data =  custom_validation(request.data)
+            print(valid_data)
             serializer = UserRegisterSerializer(data=valid_data)
             if serializer.is_valid(raise_exception=True):
                 user = serializer.create(valid_data)
@@ -70,9 +72,10 @@ class UserRegister(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ValidationError as e:
             message = str(e)
-            return Response({"Message":message}, status=status.HTTP_400_BAD_REQUEST)
+            print(111,e)
+            return Response({"message":message}, status=status.HTTP_400_BAD_REQUEST)
         except ValueError:
-            return Response({"Message":"Value Error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"message":"Value Error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class UserLogin(APIView):
 	permission_classes = (permissions.AllowAny,)
@@ -102,8 +105,8 @@ class UserLogin(APIView):
                         "last_name": user.last_name,
                         "email": user.email,
                         "phone": user.phone,
-                        "role": user.role
-                        # "image": user.image,
+                        "role": user.role,
+                        "image": user.image,
                         }})
 
                 response.set_cookie(key='jwt',value=token,httponly=True)

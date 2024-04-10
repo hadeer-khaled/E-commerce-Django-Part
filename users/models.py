@@ -47,7 +47,7 @@ class User (AbstractUser,PermissionsMixin):
         password = models.CharField(max_length=100)
         role = models.CharField(choices=roles,max_length=5)
         phone = models.CharField(max_length=11)
-        image = models.CharField(max_length=200,default="/assets/default.png")
+        image = models.CharField(max_length=250,default="https://asset.cloudinary.com/dywqswxz9/87fd349c78bb3a0b19071d8760ecb3b2")
         objects = UserManager()
 
         USERNAME_FIELD= 'email'
