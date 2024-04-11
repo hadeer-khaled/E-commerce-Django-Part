@@ -34,6 +34,7 @@ class AddToCartView(APIView):
 class ViewCartItems(APIView):
     # authentication_classes = (authentication.CustomUserAuthentication,)
     def get(self, request):
+        print(request.query_params.get('user_id'))
         user_id = request.query_params.get('user_id')
         user = get_object_or_404(User, pk=user_id)
         shopping_cart = get_object_or_404(ShoppingCart, user=user)

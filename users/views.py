@@ -100,14 +100,16 @@ class UserLogin(APIView):
                 response = Response(data={ 
                         "message":"Logged in successfully",
                         "data":{
-                        "id": user.user_id,
+                        "user_id": user.user_id,
                         "first_name": user.first_name,
                         "last_name": user.last_name,
                         "email": user.email,
                         "phone": user.phone,
                         "role": user.role,
                         "image": user.image,
-                        }})
+                        },
+                        # "jwt": token
+                        })
 
                 response.set_cookie(key='jwt',value=token,httponly=True)
                 return response
@@ -158,13 +160,15 @@ class AdminLogin(APIView):
             response = Response(data={ 
                     "message":"Logged in successfully",
                     "data":{
-                    "id": user.user_id,
+                    "user_id": user.user_id,
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "email": user.email,
                     "phone": user.phone,
-                    # "image": user.image,
-                    }})
+                    "image": user.image,
+                    },
+                    "jwt":token}
+                    )
             response.set_cookie(key='jwt',value=token,httponly=True)
             return response   
         except:   

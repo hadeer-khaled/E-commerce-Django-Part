@@ -2,7 +2,7 @@ from django.db import models
 from order.models import Order
 from products.models import Product
 class Order_Item(models.Model):
-    order_item_id = models.AutoField(primary_key=True , default=1)
+    order_item_id = models.AutoField(primary_key=True )
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE ,  db_column ='product_id')
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE ,  db_column ='order_id') 
     quantity = models.IntegerField(default=0)
