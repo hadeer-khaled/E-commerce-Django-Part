@@ -1,6 +1,6 @@
-from .views import UserView , UserLogin , UserRegister , UserLogout , AdminLogin
+from .views import UserView , UserLogin , UserRegister , UserLogout , AdminLogin,UserListView
 from django.urls import path
-from .views import UserView , OneUserView , OneUserOrdersView
+from .views import UserView , OneUserView , OneUserOrdersView,userDeleteView
 from order_item.views import  OrderItemDetailView 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,5 +14,8 @@ urlpatterns = [
     path('register/', UserRegister.as_view()),
     path('logout/', UserLogout.as_view()),
     path('admin/login/', AdminLogin.as_view() ),
+    path('showUsers/', UserListView.as_view() ),
+    path('deleteUsers/<int:user_id>/', userDeleteView.as_view() ),
+
 ]
 urlpatterns +=  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

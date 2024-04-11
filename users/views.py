@@ -15,7 +15,8 @@ from dotenv import load_dotenv
 import os
 from django.utils import timezone
 import pytz
-
+from utils.query_params import handle_query_params
+from django.core.exceptions import ValidationError
 load_dotenv()
 
 class UserView(APIView):
@@ -75,9 +76,6 @@ class UserLogin(APIView):
 	authentication_classes = (SessionAuthentication,)
 	
 	def post(self, request):
-            try:
-                data = request.data
-                serializer = UserLoginSerializer(data=data)
             try:
                 data = request.data
                 serializer = UserLoginSerializer(data=data)
@@ -165,3 +163,37 @@ class AdminLogin(APIView):
             return response   
         except:   
             return  Response({"message":"Unautorized !!"},status=status.HTTP_401_UNAUTHORIZED)   
+        
+        
+        
+        
+class UserListView(APIView):
+    def get(self, request):
+        queryset = User.objects.all()
+        params = request.query_params.copy()
+        search_fields = ['first_name', 'last_name', 'email']  # Adjust according to your needs
+
+        if 'user_id' in params and params['user_id'] == '':
+            del params['user_id']
+        
+        try:
+            result = handle_query_params(queryset, params, search_fields)  # Implement handle_query_params function
+            serializer = UserSerializer(result['data'], many=True)
+            response_data = {
+                'users': serializer.data,
+                'current_page': result['current_page'],
+                'total_pages': result['total_pages'],
+                'total_count': result['total_count']
+            }
+            return Response(response_data)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+class userDeleteView (APIView):
+        def delete(self,request, user_id):
+            try:
+                user = User.objects.get(pk=user_id)
+                user.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            except User.DoesNotExist:
+                return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
