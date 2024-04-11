@@ -8,7 +8,7 @@ class user_ratings(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE ,  db_column ='product_id')
     rating = models.IntegerField(default=0)
     
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=["user_id", "product_id"], name="rating_composite_key")
-        ]
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(fields=["user_id", "product_id"], name="rating_composite_key")
+    #     ]
