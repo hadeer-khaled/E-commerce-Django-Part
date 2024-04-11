@@ -4,7 +4,6 @@ User = get_user_model()
 
 def custom_validation(data):
     email = data['email'].strip()
-    # username = data['username'].strip()
     password = data['password'].strip()
     phone = data['phone'].strip()
     first_name = data['first_name'].strip()

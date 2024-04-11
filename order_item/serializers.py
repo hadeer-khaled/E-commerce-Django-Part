@@ -41,13 +41,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
                 'name': product.name,
                 'price': product.price,
                 'avg_rating': product.avg_rating,
-                'image': self.get_image_url(product.image),
+                'image': product.image,
             }
         except Product.DoesNotExist:
             representation['product'] = None
         return representation
-
-    def get_image_url(self, image_field):
-        if image_field and hasattr(image_field, 'url'):
-            return self.context['request'].build_absolute_uri(image_field.url)
-        return None

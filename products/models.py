@@ -15,7 +15,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     description = models.CharField(max_length=255)
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
-    image = models.CharField(max_length=200, default='products_images/default_product.png')
+    image = models.CharField(max_length=250,blank = True,default="https://www.iaei.org/global_graphics/default-store-350x350.jpg")
     # payment_id = models.CharField(max_length=100, unique=True, default="")
 
     def __str__(self):
