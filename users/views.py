@@ -100,7 +100,7 @@ class UserLogin(APIView):
                 response = Response(data={ 
                         "message":"Logged in successfully",
                         "data":{
-                        "id": user.user_id,
+                        "user_id": user.user_id,
                         "first_name": user.first_name,
                         "last_name": user.last_name,
                         "email": user.email,
@@ -158,7 +158,7 @@ class AdminLogin(APIView):
             response = Response(data={ 
                     "message":"Logged in successfully",
                     "data":{
-                    "id": user.user_id,
+                    "user_id": user.user_id,
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "email": user.email,

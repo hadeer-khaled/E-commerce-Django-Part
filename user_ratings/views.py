@@ -6,11 +6,29 @@ from .models import user_ratings
 from .serializers import UserRatingSerializer
 
 class UserRatingView(APIView):
+    # def post(self, request):
+    #     serializer = UserRatingSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def post(self, request):
         serializer = UserRatingSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            user_id = serializer.validated_data.get('user_id')
+            product_id = serializer.validated_data.get('product_id')
+            rating = serializer.validated_data.get('rating')
+            
+            # Check if a rating already exists for this user and product
+            try:
+                existing_rating = user_ratings.objects.get(user_id=user_id, product_id=product_id)
+                existing_rating.delete()  # Delete the existing rating
+            except user_ratings.DoesNotExist:
+                pass  # No existing rating found
+            
+            # Create a new rating with the provided data
+            new_rating = user_ratings.objects.create(user_id=user_id, product_id=product_id, rating=rating)
+            return Response(UserRatingSerializer(new_rating).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def get(self, request):
