@@ -108,7 +108,9 @@ class UserLogin(APIView):
                         "phone": user.phone,
                         "role": user.role,
                         "image": user.image,
-                        }})
+                        },
+                        # "jwt": token
+                        })
 
                 response.set_cookie(key='jwt',value=token,httponly=True)
                 return response
@@ -164,8 +166,11 @@ class AdminLogin(APIView):
                     "last_name": user.last_name,
                     "email": user.email,
                     "phone": user.phone,
-                    # "image": user.image,
-                    }})
+                    "image": user.image,
+                    },
+                    # "jwt":token
+                    }
+                    )
             response.set_cookie(key='jwt',value=token,httponly=True)
             return response   
         except:   
