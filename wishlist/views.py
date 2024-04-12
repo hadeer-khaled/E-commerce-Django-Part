@@ -37,22 +37,48 @@ class AddToWishlistView(APIView):
         else:
             return Response({'message': 'Product already exists in the wishlist'}, status=status.HTTP_200_OK)
 
+# class RemoveFromWishlistView(APIView):
+#     # authentication_classes = (authentication.CustomUserAuthentication,)
+#     def delete(self, request):
+#         product_id = request.data.get('product_id')
+#         user_id = request.data.get('user_id')
+
+#         product = get_object_or_404(Product, pk=product_id)
+#         wishlist = get_object_or_404(Wishlist, user_id=user_id)
+
+#         wishlist.products.remove(product)
+
+#         if wishlist.products.count() == 0:
+#             deleted_message = 'Product removed from wishlist and wishlist deleted'
+#             wishlist.delete()
+#         else:
+#             deleted_message = 'Product removed from wishlist'
+
+#         wishlist_serializer = WishlistSerializer(wishlist)
+#         return Response({'message': deleted_message, 'removed_product': wishlist_serializer.data}, status=status.HTTP_204_NO_CONTENT)
+
 class RemoveFromWishlistView(APIView):
     # authentication_classes = (authentication.CustomUserAuthentication,)
     def delete(self, request):
-        product_id = request.data.get('product_id')
-        user_id = request.data.get('user_id')
+        try:
+            product_id = request.data.get('product_id')
+            user_id = request.data.get('user_id')
 
-        product = get_object_or_404(Product, pk=product_id)
-        wishlist = get_object_or_404(Wishlist, user_id=user_id)
+            product = get_object_or_404(Product, pk=product_id)
+            wishlist = get_object_or_404(Wishlist, user_id=user_id)
 
-        wishlist.products.remove(product)
+            wishlist.products.remove(product)
 
-        if wishlist.products.count() == 0:
-            deleted_message = 'Product removed from wishlist and wishlist deleted'
-            wishlist.delete()
-        else:
-            deleted_message = 'Product removed from wishlist'
+            if wishlist.products.count() == 0:
+                deleted_message = 'Product removed from wishlist and wishlist deleted'
+                wishlist.delete()
+            else:
+                deleted_message = 'Product removed from wishlist'
 
-        wishlist_serializer = WishlistSerializer(wishlist)
-        return Response({'message': deleted_message, 'removed_product': wishlist_serializer.data}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'message': deleted_message}, status=status.HTTP_204_NO_CONTENT)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Wishlist.DoesNotExist:
+            return Response({'error': 'Wishlist not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
