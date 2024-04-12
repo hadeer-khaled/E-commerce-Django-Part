@@ -57,6 +57,7 @@ class ViewCartItems(APIView):
 
 class IncrementCartItemQuantityView(APIView):
     # authentication_classes = (authentication.CustomUserAuthentication,)
+    
     def post(self, request):
         user_id = request.data.get('user_id')
         cart_item_id = request.data.get('cart_item_id')
@@ -65,7 +66,11 @@ class IncrementCartItemQuantityView(APIView):
         shopping_cart = get_object_or_404(ShoppingCart, user=user)
         cart_item = get_object_or_404(CartItem, cart=shopping_cart, cart_item_id=cart_item_id)
 
-        cart_item.quantity += 1
+        if cart_item.quantity < cart_item.product.stock:
+            cart_item.quantity += 1
+        else:
+            return Response({'error': 'Cannot increment quantity, stock limit reached'}, status=status.HTTP_400_BAD_REQUEST)
+        
         cart_item.total_price = cart_item.product.price * cart_item.quantity  
         cart_item.save()
 
@@ -73,6 +78,7 @@ class IncrementCartItemQuantityView(APIView):
         data['total_price'] = cart_item.total_price
 
         return Response(data)
+
 
 
 
