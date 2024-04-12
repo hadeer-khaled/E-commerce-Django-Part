@@ -167,7 +167,8 @@ class AdminLogin(APIView):
                     "phone": user.phone,
                     "image": user.image,
                     },
-                    "jwt":token}
+                    # "jwt":token
+                    }
                     )
             response.set_cookie(key='jwt',value=token,httponly=True)
             return response   
