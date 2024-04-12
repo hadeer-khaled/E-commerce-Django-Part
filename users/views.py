@@ -167,6 +167,7 @@ class AdminLogin(APIView):
                     "email": user.email,
                     "phone": user.phone,
                     "image": user.image,
+                    "role": user.role
                     },
                     # "jwt":token
                     }
