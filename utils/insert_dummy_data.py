@@ -18,7 +18,7 @@ def insert_dummy_data():
             "description": "The Google Pixel 6 is here, with an incredible camera and smooth performance.",
             "avg_rating": 3.4,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA1",
-            "image":"cdn.dummyjson.com/product-images/1/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/1/1.jpg"
         }
     )
 
@@ -55,7 +55,7 @@ def insert_dummy_data():
             "description": "The ultimate MacBook Pro, with unmatched performance and stunning display.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA2",
-            "image":"cdn.dummyjson.com/product-images/2/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/2/1.jpg"
         }
     )
 
@@ -92,7 +92,7 @@ def insert_dummy_data():
             "description": "Coco Chanel perfume, a timeless classic for women.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA3",
-            "image":"cdn.dummyjson.com/product-images/3/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/3/1.jpg"
         }
     )
 
@@ -130,7 +130,7 @@ def insert_dummy_data():
             "description": "The latest iPhone with improved performance and battery life.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA4",
-            "image":"cdn.dummyjson.com/product-images/4/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/4/1.jpg"
         }
     )
 
@@ -167,7 +167,7 @@ def insert_dummy_data():
             "description": "Dell's flagship laptop with powerful performance and stunning display.",
             "avg_rating": 4.8,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA5",
-            "image":"cdn.dummyjson.com/product-images/5/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/5/1.jpg"
         }
     )
 
@@ -204,7 +204,7 @@ def insert_dummy_data():
             "description": "Dior Sauvage, a bold and woody fragrance for men.",
             "avg_rating": 3.9,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA6",
-            "image":"cdn.dummyjson.com/product-images/6/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/6/1.jpg"
         }
     )
 
@@ -256,7 +256,7 @@ def insert_dummy_data():
             "description": "The Dell XPS 17, a powerhouse for professionals with stunning visuals.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA7",
-            "image":"cdn.dummyjson.com/product-images/7/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/7/1.jpg"
         }
     )
 
@@ -293,7 +293,7 @@ def insert_dummy_data():
             "description": "Chanel No. 5, the iconic fragrance known for its timeless elegance.",
             "avg_rating": 4.9,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA8",
-            "image":"cdn.dummyjson.com/product-images/8/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/8/1.jpg"
         }
     )
 
@@ -330,7 +330,7 @@ def insert_dummy_data():
             "description": "The next generation iPhone with innovative features and performance.",
             "avg_rating": 4.8,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA9",
-            "image":"cdn.dummyjson.com/product-images/9/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/9/1.jpg"
         }
     )
 
@@ -378,7 +378,7 @@ def insert_dummy_data():
             "description": "The HP Spectre x360, a convertible laptop with stunning design and performance.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA10",
-            "image":"cdn.dummyjson.com/product-images/10/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/10/1.jpg"
         }
     )
 
@@ -415,7 +415,7 @@ def insert_dummy_data():
             "description": "Dolce & Gabbana Light Blue, a fresh and citrusy fragrance for women.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA11",
-            "image":"cdn.dummyjson.com/product-images/11/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/11/1.jpg"
         }
     )
 
@@ -462,7 +462,7 @@ def insert_dummy_data():
             "description": "The latest Samsung flagship smartphone with cutting-edge features.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA12",
-            "image":"cdn.dummyjson.com/product-images/12/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/12/1.jpg"
         }
     )
 
@@ -483,7 +483,7 @@ def insert_dummy_data():
             "description": "The versatile Surface Pro 8 with powerful performance and portability.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA13",
-            "image":"cdn.dummyjson.com/product-images/13/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/13/1.jpg"
         }
     )
 
@@ -504,7 +504,7 @@ def insert_dummy_data():
             "description": "Dior Sauvage, a captivating fragrance for the modern man.",
             "avg_rating": 4.8,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA14",
-            "image":"cdn.dummyjson.com/product-images/14/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/14/1.jpg"
         }
     )
 
@@ -536,7 +536,7 @@ def insert_dummy_data():
             "description": "Experience the speed and power of the OnePlus 10.",
             "avg_rating": 4.5,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA15",
-            "image":"cdn.dummyjson.com/product-images/15/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/15/1.jpg"
         }
     )
 
@@ -557,7 +557,7 @@ def insert_dummy_data():
             "description": "Unleash your creativity with the HP Spectre x360 convertible laptop.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA16",
-            "image":"cdn.dummyjson.com/product-images/16/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/16/1.jpg"
         }
     )
 
@@ -578,7 +578,7 @@ def insert_dummy_data():
             "description": "Gucci Bloom, a fragrance designed to celebrate the authenticity, vitality, and diversity of women.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA17",
-            "image":"cdn.dummyjson.com/product-images/17/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/17/1.jpg"
         }
     )
 
@@ -610,7 +610,7 @@ def insert_dummy_data():
             "description": "Experience the latest innovation with the Samsung Galaxy S22.",
             "avg_rating": 4.8,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA18",
-            "image":"cdn.dummyjson.com/product-images/18/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/18/1.jpg"
         }
     )
 
@@ -631,7 +631,7 @@ def insert_dummy_data():
             "description": "Meet your everyday computing needs with the Dell Inspiron 15 laptop.",
             "avg_rating": 4.5,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA19",
-            "image":"cdn.dummyjson.com/product-images/19/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/19/1.jpg"
         }
     )
 
@@ -652,7 +652,7 @@ def insert_dummy_data():
             "description": "Chanel No. 5, a timeless fragrance that embodies elegance and sophistication.",
             "avg_rating": 4.9,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA20",
-            "image":"cdn.dummyjson.com/product-images/20/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/20/1.jpg"
         }
     )
 
@@ -684,7 +684,7 @@ def insert_dummy_data():
             "description": "Experience the next evolution of iPhone with the iPhone 15.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA21",
-            "image":"cdn.dummyjson.com/product-images/21/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/21/1.jpg"
         }
     )
 
@@ -705,7 +705,7 @@ def insert_dummy_data():
             "description": "Unleash your productivity with the Lenovo ThinkPad X1 Carbon.",
             "avg_rating": 4.8,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA22",
-            "image":"cdn.dummyjson.com/product-images/22/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/22/1.jpg"
         }
     )
 
@@ -726,7 +726,7 @@ def insert_dummy_data():
             "description": "Dior Sauvage, an aromatic fragrance for men that exudes freshness and sensuality.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA23",
-            "image":"cdn.dummyjson.com/product-images/23/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/23/1.jpg"
         }
     )
 
@@ -758,7 +758,7 @@ def insert_dummy_data():
             "description": "Experience the power and innovation with the Samsung Galaxy S22 Ultra.",
             "avg_rating": 4.9,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA24",
-            "image":"cdn.dummyjson.com/product-images/24/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/24/1.jpg"
         }
     )
 
@@ -779,7 +779,7 @@ def insert_dummy_data():
             "description": "Experience unmatched gaming performance with the Asus ROG Zephyrus G14.",
             "avg_rating": 4.8,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA25",
-            "image":"cdn.dummyjson.com/product-images/25/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/25/1.jpg"
         }
     )
 
@@ -800,7 +800,7 @@ def insert_dummy_data():
             "description": "Chanel No. 5, the iconic fragrance that embodies elegance and sophistication.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA26",
-            "image":"cdn.dummyjson.com/product-images/26/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/26/1.jpg"
         }
     )
 
@@ -832,7 +832,7 @@ def insert_dummy_data():
             "description": "Experience performance and style with the Xiaomi Redmi Note 11 Pro.",
             "avg_rating": 4.5,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA27",
-            "image":"cdn.dummyjson.com/product-images/27/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/27/1.jpg"
         }
     )
 
@@ -853,7 +853,7 @@ def insert_dummy_data():
             "description": "Unleash your gaming potential with the Lenovo Legion 5 Pro.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA28",
-            "image":"cdn.dummyjson.com/product-images/28/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/28/1.jpg"
         }
     )
 
@@ -874,7 +874,7 @@ def insert_dummy_data():
             "description": "Dior Sauvage, a powerful and fresh fragrance for men.",
             "avg_rating": 4.8,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA29",
-            "image":"cdn.dummyjson.com/product-images/29/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/29/1.jpg"
         }
     )
 
@@ -906,7 +906,7 @@ def insert_dummy_data():
             "description": "Experience the ultimate in smartphone technology with the Samsung Galaxy S22 Ultra.",
             "avg_rating": 4.7,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA30",
-            "image":"cdn.dummyjson.com/product-images/30/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/30/1.jpg"
         }
     )
 
@@ -927,7 +927,7 @@ def insert_dummy_data():
             "description": "Dominate the gaming arena with the Asus ROG Zephyrus G14 gaming laptop.",
             "avg_rating": 4.6,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAA31",
-            "image":"cdn.dummyjson.com/product-images/31/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/31/1.jpg"
         }
     )
 
@@ -948,7 +948,7 @@ def insert_dummy_data():
             "description": "Chanel No. 5, the iconic fragrance that epitomizes luxury and elegance.",
             "avg_rating": 4.9,
             "payment_id":"price_AAAAQYEbT5QdQbCz6EHWAAA32",
-            "image":"cdn.dummyjson.com/product-images/32/1.jpg"
+            "image":"https://cdn.dummyjson.com/product-images/32/1.jpg"
         }
     )
 
