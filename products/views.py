@@ -37,10 +37,6 @@ class ProductListView(APIView):
     def post(self, request):
         # Exclude 'images' field from serializer data
         images = request.data.pop('images', [])
-        print("==========================")
-        print("request.data :")
-        print(request.data)
-        print("==========================")
         serializer = ProductCreateSerializer(data=request.data)
         if serializer.is_valid():
             product = serializer.save()
@@ -64,10 +60,6 @@ class ProductDetailsView(APIView):
     def put(self, request, product_id):
         try:
             product = Product.objects.get(pk=product_id)
-            print("==========================")
-            print("request.data :")
-            print(request.data)
-            print("==========================")
         except Product.DoesNotExist:
             return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
         # Exclude 'images' field from serializer data
