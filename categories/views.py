@@ -7,6 +7,7 @@ from rest_framework import status
 from .serializers import CategorySerializer, CategoryCreateSerializer, CategoryUpdateSerializer
 from rest_framework import status
 from rest_framework.views import APIView
+from products.models import Product
 
 class CategoryListView(APIView):
     def get(self, request):
@@ -56,14 +57,16 @@ class AddCategoryView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeleteCategoryView(APIView):
-    def delete(self,request, category_id):
+    def delete(self, request, category_id):
         try:
             category = Category.objects.get(pk=category_id)
+
+            Product.objects.filter(category=category).delete()
+
             category.delete()
+
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Category.DoesNotExist:
             return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
-
-
 
 
