@@ -4,7 +4,6 @@ from django.db.models import Q
 def handle_query_params(queryset, params, search_fields):
     params = params.copy()
     max_limit = 50
-    
     if params.get('page', 1) == '':
         page = 1
     else:

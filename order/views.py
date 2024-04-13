@@ -6,16 +6,33 @@ from .models import Order
 from shipment.models import Shipment
 from shipment.models import Shipment
 from .serializers import OrderSerializer
-
+from utils.query_params import handle_query_params
+from django.core.exceptions import ValidationError
 class AllOrdersView(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self,request ):
-        orders = Order.objects.all()
-        if orders.exists():  # Check if there are any orders
-            serializer = OrderSerializer(orders, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "No orders found"}, status=status.HTTP_404_NOT_FOUND)
+        queryset = Order.objects.all()
+        params = request.query_params.copy()
+
+        try:
+            result = handle_query_params(queryset, params, "order_id")
+            serializer = OrderSerializer(result['data'], many=True)
+
+            response_data = {
+                'orders': serializer.data,
+                'current_page': result['current_page'],
+                'total_pages': result['total_pages'],
+                'total_count': result['total_count']
+            }
+            return Response(response_data)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=400)
+
+        # if orders.exists():  # Check if there are any orders
+        #     serializer = OrderSerializer(orders, many=True)
+        #     return Response(serializer.data, status=status.HTTP_200_OK)
+        # else:
+        #     return Response({"error": "No orders found"}, status=status.HTTP_404_NOT_FOUND)
         
 class SpecificOrderView(APIView):
     permission_classes = (permissions.AllowAny,)
