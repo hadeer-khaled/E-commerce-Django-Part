@@ -69,7 +69,7 @@ This project serves as the backend for the E-shop application. It provides endpo
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0. See the [LICENSE](./LICENSE) file for details.
+This project is licensed under the GNU General Public License v3.0.
 
 ## Screenshots
 
