@@ -35,11 +35,22 @@ class ProductListView(APIView):
             return Response({'error': str(e)}, status=400)
         
     def post(self, request):
+        # Exclude 'images' field from serializer data
+        print("==========================")
+        print("request.data :")
+        print(request.data)
+        images = request.data.pop('images', [])
         serializer = ProductCreateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            product = serializer.save()
+            # Call ProductImagesView to add images for the product
+            self.add_images_to_product(product.product_id, images)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def add_images_to_product(self, product_id, images):
+        for image_url in images:
+            ProductImage.objects.create(product_id=product_id, image=image_url)
 
 class ProductDetailsView(APIView):
     def get(self, request, product_id):
@@ -124,8 +135,9 @@ def get_product_details(product_id):
             "description": product.description,
             "avg_rating": product.avg_rating,
             "category": category_name,
+            "image": product.image,
             "images": image_urls,
-            # "payment_id": product.payment_id
+            "payment_id": product.payment_id
         }
         return product_data
     except Product.DoesNotExist:
