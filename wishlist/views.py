@@ -29,16 +29,12 @@ class AddToWishlistView(APIView):
 
         product = get_object_or_404(Product, pk=product_id)
         wishlist, created = Wishlist.objects.get_or_create(user_id=user_id)
+        wishlist.products.add(product)
 
-        if not wishlist.products.filter(pk=product_id).exists():
-            wishlist.products.add(product)
-            wishlist_serializer = WishlistSerializer(wishlist)
-            return Response({'message': 'Product added to wishlist successfully', 'added_product': wishlist_serializer.data}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'message': 'Product already exists in the wishlist'}, status=status.HTTP_200_OK)
+        wishlist_serializer = WishlistSerializer(wishlist)
+        return Response({'message': 'Product added to wishlist successfully', 'added_product': wishlist_serializer.data}, status=status.HTTP_201_CREATED)
 
 class RemoveFromWishlistView(APIView):
-    # authentication_classes = (authentication.CustomUserAuthentication,)
     def delete(self, request):
         product_id = request.data.get('product_id')
         user_id = request.data.get('user_id')
@@ -47,12 +43,7 @@ class RemoveFromWishlistView(APIView):
         wishlist = get_object_or_404(Wishlist, user_id=user_id)
 
         wishlist.products.remove(product)
-
-        if wishlist.products.count() == 0:
-            deleted_message = 'Product removed from wishlist and wishlist deleted'
-            wishlist.delete()
-        else:
-            deleted_message = 'Product removed from wishlist'
+        deleted_message = 'Product removed from wishlist'
 
         wishlist_serializer = WishlistSerializer(wishlist)
-        return Response({'message': deleted_message, 'removed_product': wishlist_serializer.data}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'message': deleted_message, 'removed_product': wishlist_serializer.data}, status=status.HTTP_200_OK)

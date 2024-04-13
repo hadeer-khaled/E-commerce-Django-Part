@@ -203,9 +203,6 @@ class UserListView(APIView):
         
 class userDeleteView (APIView):
         def delete(self,request, user_id):
-            try:
-                user = User.objects.get(pk=user_id)
-                user.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            except User.DoesNotExist:
-                return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+            user = User.objects.get(pk=user_id)
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
