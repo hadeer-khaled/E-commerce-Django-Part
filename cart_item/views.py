@@ -34,6 +34,7 @@ class AddToCartView(APIView):
 class ViewCartItems(APIView):
     # authentication_classes = (authentication.CustomUserAuthentication,)
     def get(self, request):
+        print(request.query_params.get('user_id'))
         user_id = request.query_params.get('user_id')
         user = get_object_or_404(User, pk=user_id)
         shopping_cart = get_object_or_404(ShoppingCart, user=user)
@@ -115,13 +116,7 @@ class RemoveFromCartView(APIView):
         cart_item = get_object_or_404(CartItem, cart=shopping_cart, pk=cart_item_id)
 
         cart_item.delete()
-
-        # Check if the shopping cart is empty after deleting the item
-        if shopping_cart.cartitem_set.count() == 0:
-            shopping_cart.delete()
-            message = 'Shopping cart removed as it is empty.'
-        else:
-            message = 'Cart item removed from shopping cart.'
+        message = 'Cart item removed from shopping cart.'
 
         serializer = CartItemSerializer(cart_item)
-        return Response({"detail": message, "deleted_cart_item": serializer.data}, status=204)
+        return Response({"detail": message, "deleted_cart_item": serializer.data}, status=status.HTTP_200_OK)

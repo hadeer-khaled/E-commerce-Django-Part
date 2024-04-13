@@ -3,7 +3,7 @@ from users.models import User
 class Shipment(models.Model):
     stauts_choices = [ ("pending","pending") , ("shipped" ,"shipped") ,("delivered" ,"delivered") , ("cancelled" , "cancelled")]
 
-    shipment_id =models.AutoField(primary_key=True , default=1)
+    shipment_id =models.AutoField(primary_key=True)
     status = models.CharField(max_length = 10,choices = stauts_choices , default = "pending" )
     delivery_date = models.DateTimeField()
 

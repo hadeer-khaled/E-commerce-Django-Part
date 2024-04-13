@@ -176,9 +176,10 @@ class ConfirmPayment(APIView):
 
                 #create Order_item items & update stock values
                 for product in products:
+                    order_product = Product.objects.get(product_id=product['product_id'])
                     # create order_item records
                     item = Order_Item.objects.create(
-                        product_id=product['product_id'],
+                        product_id=order_product,
                         order_id=order,
                         quantity=product['quantity'],
                         product_price=product['price']

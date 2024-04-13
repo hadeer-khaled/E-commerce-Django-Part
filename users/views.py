@@ -108,7 +108,9 @@ class UserLogin(APIView):
                         "phone": user.phone,
                         "role": user.role,
                         "image": user.image,
-                        }})
+                        },
+                        # "jwt": token
+                        })
 
                 response.set_cookie(key='jwt',value=token,httponly=True)
                 return response
@@ -164,8 +166,12 @@ class AdminLogin(APIView):
                     "last_name": user.last_name,
                     "email": user.email,
                     "phone": user.phone,
-                    # "image": user.image,
-                    }})
+                    "image": user.image,
+                    "role": user.role
+                    },
+                    # "jwt":token
+                    }
+                    )
             response.set_cookie(key='jwt',value=token,httponly=True)
             return response   
         except:   
@@ -198,9 +204,6 @@ class UserListView(APIView):
         
 class userDeleteView (APIView):
         def delete(self,request, user_id):
-            try:
-                user = User.objects.get(pk=user_id)
-                user.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            except User.DoesNotExist:
-                return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+            user = User.objects.get(pk=user_id)
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
