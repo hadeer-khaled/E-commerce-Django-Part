@@ -36,10 +36,11 @@ class ProductListView(APIView):
         
     def post(self, request):
         # Exclude 'images' field from serializer data
+        images = request.data.pop('images', [])
         print("==========================")
         print("request.data :")
         print(request.data)
-        images = request.data.pop('images', [])
+        print("==========================")
         serializer = ProductCreateSerializer(data=request.data)
         if serializer.is_valid():
             product = serializer.save()
@@ -63,14 +64,28 @@ class ProductDetailsView(APIView):
     def put(self, request, product_id):
         try:
             product = Product.objects.get(pk=product_id)
+            print("==========================")
+            print("request.data :")
+            print(request.data)
+            print("==========================")
         except Product.DoesNotExist:
             return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        # Exclude 'images' field from serializer data
+        images = request.data.pop('images', [])
         serializer = ProductUpdateSerializer(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            # Update product images
+            self.update_product_images(product_id, images)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update_product_images(self, product_id, images):
+        # Delete existing product images
+        ProductImage.objects.filter(product_id=product_id).delete()
+        # Add new product images
+        for image_url in images:
+            ProductImage.objects.create(product_id=product_id, image=image_url)
 
     def patch(self, request, product_id):
         try:
@@ -142,4 +157,3 @@ def get_product_details(product_id):
         return product_data
     except Product.DoesNotExist:
         raise ValidationError("Product not found")
-
