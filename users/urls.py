@@ -15,7 +15,7 @@ urlpatterns = [
     path('logout/', UserLogout.as_view()),
     path('admin/login/', AdminLogin.as_view() ),
     path('showUsers/', UserListView.as_view() ),
-    path('deleteUsers/', userDeleteView.as_view() ),
+    path('deleteUsers/<int:user_id>/', userDeleteView.as_view() ),
 
 ]
 urlpatterns +=  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
