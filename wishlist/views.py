@@ -63,8 +63,10 @@ class RemoveFromWishlistView(APIView):
             product = get_object_or_404(Product, pk=product_id)
             wishlist = get_object_or_404(Wishlist, user_id=user_id)
 
-        wishlist.products.remove(product)
-        deleted_message = 'Product removed from wishlist'
+            wishlist.products.remove(product)
+            deleted_message = 'Product removed from wishlist'
 
-        wishlist_serializer = WishlistSerializer(wishlist)
-        return Response({'message': deleted_message, 'removed_product': wishlist_serializer.data}, status=status.HTTP_200_OK)
+            wishlist_serializer = WishlistSerializer(wishlist)
+            return Response({'message': deleted_message, 'removed_product': wishlist_serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({'error': 'An error occurred while removing the product from wishlist'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
