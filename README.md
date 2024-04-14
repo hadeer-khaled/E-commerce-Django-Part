@@ -65,6 +65,10 @@ This project serves as the backend for the E-shop application. It provides endpo
 
   3. The backend server will be running at [http://localhost:8000](http://localhost:8000).
 
+  ### Running the Frontend
+
+  To run the frontend application, please go to the [E-commerce React Frontend repository](https://github.com/hadeer-khaled/E-commerce-React-Part/) and follow the instructions in the README.
+
 </details>
 
 ## License
